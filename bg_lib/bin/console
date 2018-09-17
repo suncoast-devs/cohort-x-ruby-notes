@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'irb'
+require 'active_record'
+
+Dir[File.join(__dir__, '..', '/app/**/*.rb')].each { |file| require file }
+
+def reload!
+  Dir[File.join(__dir__, '..', '/app/**/*.rb')].each { |file| load file }
+end
+
+db_config = YAML.safe_load(File.open('config/database.yml'))
+ActiveRecord::Base.establish_connection(db_config)
+
+binding.irb

@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'active_record'
+Dir[File.join(__dir__, '..', '/app/**/*.rb')].each { |file| require file }
+db_config = YAML.safe_load(File.open('config/database.yml'))
+ActiveRecord::Base.establish_connection(db_config)
+
+Game.all.each do |game|
+  puts "#{game.name}, design by #{game.designer.name}"
+end
