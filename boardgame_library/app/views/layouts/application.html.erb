@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Boardgame Library</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+      <h1>Boardgame Library</h1>
+      <nav>
+        <ul>
+          <li><%= link_to 'Designers', :designers %></li>
+          <li><%= link_to 'Games', :games %></li>
+        </ul>
+      </nav>
+    </header>
+    <%= yield %>
+    <footer>
+      <p>Made with ❤️ in St Petersburg, FL.</p>
+    </footer>
+  </body>
+</html>

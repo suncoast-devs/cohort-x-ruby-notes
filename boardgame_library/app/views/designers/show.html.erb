@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h2><%= @designer.name %></h2>
+<h3><%= @designer.company %></h3>
+
+<a href="<%= @designer.url %>"><%= @designer.url %></a>
+
+<p>
+  <img src="<%= @designer.photo_url %>" />
+</p>
+
+<h2>Games by <%= @designer.name %></h2>
+
+<ul>
+  <% @designer.games.each do |game| %>
+    <li><%= link_to game.name, game %></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit', edit_designer_path(@designer) %> |
+<%= link_to 'Back', designers_path %>

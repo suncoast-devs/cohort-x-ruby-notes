@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  min_players: 1
+  max_players: 1
+  min_duration: 1
+  max_duration: 1
+  min_age: 1
+  designer: one
+
+two:
+  name: MyString
+  description: MyText
+  min_players: 1
+  max_players: 1
+  min_duration: 1
+  max_duration: 1
+  min_age: 1
+  designer: two

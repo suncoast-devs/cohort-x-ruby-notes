@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= link_to @game.name, @game %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @game.description %>
+</p>
+
+<p>
+  <strong>Min players:</strong>
+  <%= @game.min_players %>
+</p>
+
+<p>
+  <strong>Max players:</strong>
+  <%= @game.max_players %>
+</p>
+
+<p>
+  <strong>Min duration:</strong>
+  <%= @game.min_duration %>
+</p>
+
+<p>
+  <strong>Max duration:</strong>
+  <%= @game.max_duration %>
+</p>
+
+<p>
+  <strong>Min age:</strong>
+  <%= @game.min_age %>
+</p>
+
+<p>
+  <strong>Designer:</strong>
+  <% if @game.designer %>
+    <%= link_to @game.designer.name, @game.designer %>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_game_path(@game) %> |
+<%= link_to 'Back', games_path %>

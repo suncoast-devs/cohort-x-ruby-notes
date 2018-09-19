@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Designers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Company</th>
+      <th>Url</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @designers.each do |designer| %>
+      <tr>
+        <td>
+          <%= link_to designer do %>
+            <img src="<%= designer.photo_url %>" height="100" />
+          <% end %>
+        </td>
+        <td><%= link_to designer.name, designer %></td>
+        <td><%= designer.company %></td>
+        <td><a href="<%= designer.url %>"><%= designer.url %></a></td>
+        <td><%= link_to 'Show', designer %></td>
+        <td><%= link_to 'Edit', edit_designer_path(designer) %></td>
+        <td><%= link_to 'Destroy', designer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Designer', new_designer_path %>
