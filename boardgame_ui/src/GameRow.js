@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const GameRow = props => (
   <tr className="GameRow">
@@ -7,6 +7,6 @@ const GameRow = props => (
     <td>{props.min_duration}</td>
     <td>{props.min_age}</td>
   </tr>
-);
+)
 
-export default GameRow;
+export default GameRow

@@ -1,9 +1,22 @@
 import React, { Component } from 'react'
 
-class NewGameCard extends Component {
+class DesignerCardForm extends Component {
   state = {
     name: '',
-    description: ''
+    photo_url: ''
+  }
+
+  componentDidMount() {
+    if (this.props.editing) {
+      fetch(`/designers/${this.props.editing}`)
+        .then(r => r.json())
+        .then(data => {
+          this.setState({
+            name: data.name,
+            photo_url: data.photo_url || ''
+          })
+        })
+    }
   }
 
   handleChange = event => {
@@ -12,14 +25,40 @@ class NewGameCard extends Component {
   }
 
   handleSubmit = event => {
-    const { name, description } = this.state
-    fetch('/games', {
+    if (this.props.editing) {
+      this.update()
+    } else {
+      this.create()
+    }
+  }
+
+  update() {
+    const { name, photo_url } = this.state
+    fetch(`/designers/${this.props.editing}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        designer: { name, photo_url }
+      })
+    })
+      .then(r => r.json())
+      .then(response => {
+        this.props.onClose()
+        this.props.onCreated()
+      })
+  }
+
+  create() {
+    const { name, photo_url } = this.state
+    fetch('/designers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        game: { name, description }
+        designer: { name, photo_url }
       })
     })
       .then(r => r.json())
@@ -33,7 +72,9 @@ class NewGameCard extends Component {
     return (
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Add New Game</p>
+          <p className="modal-card-title">
+            {this.props.editing ? 'Update Designer' : 'Add New Designer'}
+          </p>
           <button
             className="delete"
             aria-label="close"
@@ -47,22 +88,22 @@ class NewGameCard extends Component {
               <input
                 className="input"
                 type="text"
-                placeholder="Name of the game"
+                placeholder="Name of the designer"
                 value={this.state.name}
                 name="name"
                 onChange={this.handleChange}
               />
             </div>
           </div>
-
           <div className="field">
-            <label className="label">Description</label>
+            <label className="label">Photo URL</label>
             <div className="control">
-              <textarea
-                className="textarea"
-                placeholder="What's this game about?"
-                value={this.state.description}
-                name="description"
+              <input
+                className="input"
+                type="text"
+                placeholder="Name of the designer"
+                value={this.state.photo_url}
+                name="photo_url"
                 onChange={this.handleChange}
               />
             </div>
@@ -70,7 +111,7 @@ class NewGameCard extends Component {
         </section>
         <footer className="modal-card-foot">
           <button className="button is-success" onClick={this.handleSubmit}>
-            Save changes
+            {this.props.editing ? 'Update' : 'Create'}
           </button>
           <button className="button" onClick={this.props.onClose}>
             Cancel
@@ -81,4 +122,4 @@ class NewGameCard extends Component {
   }
 }
 
-export default NewGameCard
+export default DesignerCardForm

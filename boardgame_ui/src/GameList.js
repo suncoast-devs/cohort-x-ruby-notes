@@ -1,39 +1,40 @@
-import React, { Component } from "react";
-import GameRow from "./GameRow";
-import NewGameCard from "./NewGameCard";
+import React, { Component } from 'react'
+import GameRow from './GameRow'
+import NewGameCard from './NewGameCard'
 
 class GameList extends Component {
   state = {
     games: []
-  };
+  }
 
   componentDidMount() {
-    this.loadData();
+    this.loadData()
   }
 
   loadData = () => {
-    fetch("/games")
+    fetch('/games')
       .then(r => r.json())
       .then(data => {
         this.setState({
           games: data,
           modalActive: false
-        });
-      });
-  };
+        })
+      })
+  }
 
   showModal = () => {
-    this.setState({ modalActive: true });
-  };
+    this.setState({ modalActive: true })
+  }
 
   hideModal = () => {
-    this.setState({ modalActive: false });
-  };
+    this.setState({ modalActive: false })
+  }
 
   render() {
     return (
       <div className="GameList">
         <div className="container">
+          <h1 className="title">Board Games</h1>
           <table className="table is-fullwidth">
             <thead>
               <tr>
@@ -60,14 +61,14 @@ class GameList extends Component {
             </div>
           </nav>
 
-          <div className={`modal ${this.state.modalActive ? "is-active" : ""}`}>
+          <div className={`modal ${this.state.modalActive ? 'is-active' : ''}`}>
             <div className="modal-background" />
             <NewGameCard onClose={this.hideModal} onCreated={this.loadData} />
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default GameList;
+export default GameList
