@@ -39,13 +39,14 @@ class GamesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game
-      @game = Game.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def game_params
-      params.require(:game).permit(:name, :description, :min_players, :max_players, :min_duration, :max_duration, :min_age, :designer_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_game
+    @game = Game.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def game_params
+    params.require(:game).permit(:name, :description, :min_players, :max_players, :min_duration, :max_duration, :min_age, :designer_id, :photo_url)
+  end
 end
