@@ -31,6 +31,17 @@ class DesignerList extends Component {
     this.setState({ modalActive: false, editing: null })
   }
 
+  deleteDesigner(id) {
+    fetch(`/designers/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      this.loadData()
+    })
+  }
+
   render() {
     return (
       <div className="DesignerList">
@@ -50,6 +61,7 @@ class DesignerList extends Component {
                   {...designer}
                   key={designer.id}
                   onEdit={() => this.showModal(designer.id)}
+                  onDelete={() => this.deleteDesigner(designer.id)}
                 />
               ))}
             </tbody>

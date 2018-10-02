@@ -1,9 +1,24 @@
 import React, { Component } from 'react'
 
-class NewGameCard extends Component {
+class GameCardForm extends Component {
   state = {
     name: '',
-    description: ''
+    description: '',
+    photo_url: ''
+  }
+
+  componentDidMount() {
+    if (this.props.editing) {
+      fetch(`/games/${this.props.editing}`)
+        .then(r => r.json())
+        .then(data => {
+          this.setState({
+            name: data.name,
+            description: data.description || '',
+            photo_url: data.photo_url || ''
+          })
+        })
+    }
   }
 
   handleChange = event => {
@@ -12,14 +27,40 @@ class NewGameCard extends Component {
   }
 
   handleSubmit = event => {
-    const { name, description } = this.state
+    if (this.props.editing) {
+      this.update()
+    } else {
+      this.create()
+    }
+  }
+
+  update() {
+    const { name, description, photo_url } = this.state
+    fetch(`/games/${this.props.editing}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        game: { name, description, photo_url }
+      })
+    })
+      .then(r => r.json())
+      .then(response => {
+        this.props.onClose()
+        this.props.onCreated()
+      })
+  }
+
+  create() {
+    const { name, description, photo_url } = this.state
     fetch('/games', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        game: { name, description }
+        game: { name, description, photo_url }
       })
     })
       .then(r => r.json())
@@ -67,6 +108,20 @@ class NewGameCard extends Component {
               />
             </div>
           </div>
+
+          <div className="field">
+            <label className="label">Photo URL</label>
+            <div className="control">
+              <input
+                className="input"
+                type="text"
+                placeholder="Photo of the game box art"
+                value={this.state.photo_url}
+                name="photo_url"
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
         </section>
         <footer className="modal-card-foot">
           <button className="button is-success" onClick={this.handleSubmit}>
@@ -81,4 +136,4 @@ class NewGameCard extends Component {
   }
 }
 
-export default NewGameCard
+export default GameCardForm

@@ -101,7 +101,7 @@ class DesignerCardForm extends Component {
               <input
                 className="input"
                 type="text"
-                placeholder="Name of the designer"
+                placeholder="Photo of the designer"
                 value={this.state.photo_url}
                 name="photo_url"
                 onChange={this.handleChange}

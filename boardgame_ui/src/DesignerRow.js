@@ -17,6 +17,11 @@ const DesignerRow = props => (
           <i className="fas fa-edit" />
         </span>
       </a>
+      <a className="button" onClick={props.onDelete}>
+        <span className="icon is-small">
+          <i className="fas fa-trash" />
+        </span>
+      </a>
     </td>
   </tr>
 )

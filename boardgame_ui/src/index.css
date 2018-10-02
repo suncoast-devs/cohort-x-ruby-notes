@@ -4,7 +4,8 @@ nav.navigation {
   margin: 1rem 0;
 }
 
-figure.avatar {
+figure.avatar,
+figure.boxart {
   height: 80px;
   width: 80px;
   border: thick solid white;
@@ -12,4 +13,8 @@ figure.avatar {
   background-size: cover;
   background-position: center;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+figure.boxart {
+  width: 120px;
 }

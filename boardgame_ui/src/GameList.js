@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import GameRow from './GameRow'
-import NewGameCard from './NewGameCard'
+import GameCardForm from './GameCardForm'
 
 class GameList extends Component {
   state = {
-    games: []
+    games: [],
+    editing: null
   }
 
   componentDidMount() {
@@ -22,12 +23,23 @@ class GameList extends Component {
       })
   }
 
-  showModal = () => {
-    this.setState({ modalActive: true })
+  showModal = id => {
+    this.setState({ modalActive: true, editing: id })
   }
 
   hideModal = () => {
-    this.setState({ modalActive: false })
+    this.setState({ modalActive: false, editing: null })
+  }
+
+  deleteGame(id) {
+    fetch(`/games/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      this.loadData()
+    })
   }
 
   render() {
@@ -38,21 +50,28 @@ class GameList extends Component {
           <table className="table is-fullwidth">
             <thead>
               <tr>
+                <th />
                 <th>Name</th>
                 <th>Players</th>
                 <th>Duration</th>
                 <th>Age</th>
+                <th />
               </tr>
             </thead>
             <tbody>
               {this.state.games.map(game => (
-                <GameRow {...game} key={game.id} />
+                <GameRow
+                  {...game}
+                  key={game.id}
+                  onEdit={() => this.showModal(game.id)}
+                  onDelete={() => this.deleteGame(game.id)}
+                />
               ))}
             </tbody>
           </table>
           <nav className="level">
             <div className="level-item">
-              <a className="button is-primary" onClick={this.showModal}>
+              <a className="button is-primary" onClick={() => this.showModal()}>
                 <span>Add Game</span>
                 <span className="icon is-small">
                   <i className="fas fa-plus" />
@@ -63,7 +82,13 @@ class GameList extends Component {
 
           <div className={`modal ${this.state.modalActive ? 'is-active' : ''}`}>
             <div className="modal-background" />
-            <NewGameCard onClose={this.hideModal} onCreated={this.loadData} />
+            {this.state.modalActive && (
+              <GameCardForm
+                editing={this.state.editing}
+                onClose={this.hideModal}
+                onCreated={this.loadData}
+              />
+            )}
           </div>
         </div>
       </div>
